@@ -33,6 +33,9 @@ class Screen:
         self.caption = caption
         pygame.display.set_caption(caption)
 
+    def get_window(self):
+        return self.window
+
 
 class LevelScreen(Screen):
     """
@@ -116,6 +119,12 @@ class MenuScreen(Screen):
                         sys.exit()
                 func(*args, **kwargs)
                 pygame.display.update()
+        return wrapper
+
+    @staticmethod
+    def init(func):
+        def wrapper(*args, **kwargs):
+            func(*args, **kwargs)
         return wrapper
 
 
