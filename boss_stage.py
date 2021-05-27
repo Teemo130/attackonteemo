@@ -262,7 +262,7 @@ def Boss_screen(level, screen, start=False):
                 victory(win = True)
                 return False
 
-            screen.blit(map,(-100,0))
+            screen.blit(map,(-200,0))
             boss_fire.update(time)
             boss_fire.draw(screen)
             bullet_group.update(time)

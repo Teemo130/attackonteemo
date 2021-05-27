@@ -39,7 +39,7 @@ def startscreen():
                 exit()
             if event.type == MOUSEBUTTONDOWN:
                 if startbutton.collidepoint(ponter):
-                    Boss_screen(10, screen, start = True)
+                    stage1screen(9, screen, start = True)
             if event.type == KEYDOWN:
                 if event == K_ESCAPE:
                     pygame.quit()

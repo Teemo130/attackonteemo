@@ -1,7 +1,7 @@
 import pygame as py
 from sys import exit
 from pygame.locals import *
-from stage2screen import stage2screen
+
 
 def Finishscreen(start = False):
     py.init()
@@ -39,6 +39,5 @@ def Finishscreen(start = False):
                 exit()
             if event.type == MOUSEBUTTONDOWN:
                 if nextlevelbutton.collidepoint(ponter):
-                    stage2screen(2,start = True)
                     return False
         py.display.update()

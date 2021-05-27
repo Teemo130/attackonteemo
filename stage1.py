@@ -84,7 +84,6 @@ def stage1screen(level, screen, start=False):
         all_sprite.add(teemo)
         shroom_count = level
         canonfire = pygame.sprite.Group()
-        screen_loca = (random.randrange(0,6000),random.randrange(0,2800))
 
         while True:
             """make teemo shoot to the mid point of the ponter(which is the mark)"""
@@ -233,13 +232,13 @@ def stage1screen(level, screen, start=False):
                     return False
 
             """calculate the killing numbers"""
-            kill_count = kill_count + level * 5
+
             if kill_count <= 0:
                 pygame.mixer.quit()
                 victory(win = True)
                 return False
 
-            screen.blit(map,screen_loca)
+            screen.blit(map,(0,0))
             bullet_group.update(time)
             bullet_group.draw(screen)
             canonfire.update(time)
