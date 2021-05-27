@@ -15,7 +15,7 @@ class Canon(pygame.sprite.Sprite):
         self.baseImage = self.image
         self.mask = pygame.mask.from_surface(self.image, 200)
         self.speed_x = random.randrange(25, 75)
-        self.life = 20
+        self.life = 20 + level * 3
         self.level = level
         self.target = target
         self.destination = Vector2(self.target.rect.center)
