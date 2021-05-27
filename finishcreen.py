@@ -41,3 +41,6 @@ def Finishscreen(start = False):
                 if nextlevelbutton.collidepoint(ponter):
                     return False
         py.display.update()
+
+
+
