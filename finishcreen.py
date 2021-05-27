@@ -4,6 +4,7 @@ from pygame.locals import *
 from stage2screen import stage2screen
 
 def Finishscreen(start = False):
+    
     py.init()
     py.mixer.init()
     sound = py.mixer.Sound('ka-ching.mp3')
