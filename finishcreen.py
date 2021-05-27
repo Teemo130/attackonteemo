@@ -42,3 +42,6 @@ def Finishscreen(start = False):
                     stage2screen(2,start = True)
                     return False
         py.display.update()
+
+
+
