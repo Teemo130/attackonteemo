@@ -3,11 +3,12 @@ import pygame
 from stage1 import stage1screen
 from sys import exit
 from pygame.locals import *
+from boss_stage import Boss_screen
 
 def startscreen():
     pygame.init()
     pygame.display.set_caption("Attack On Teemo")
-    screen = pygame.display.set_mode((1800, 900), 0, 32)
+    screen = pygame.display.set_mode((1800, 900), pygame.FULLSCREEN)
     screen.fill((255, 255, 255))
     start = "START"
     my_font = pygame.font.SysFont("arial", 60)
@@ -23,7 +24,6 @@ def startscreen():
     start_pic = pygame.image.load('start.png').convert_alpha()
     title_pic = pygame.image.load('title.png').convert_alpha()
     while True:
-
         start_rect = start_pic.get_rect()
         screen.blit(start_pic,(800,450))
         screen.blit(title_pic,(500,100))
@@ -39,7 +39,9 @@ def startscreen():
                 exit()
             if event.type == MOUSEBUTTONDOWN:
                 if startbutton.collidepoint(ponter):
-                    stage1screen(1, start = True)
+                    Boss_screen(10, screen, start = True)
+            if event.type == KEYDOWN:
+                if event == K_ESCAPE:
+                    pygame.quit()
+                    exit()
         pygame.display.update()
-
-startscreen()
