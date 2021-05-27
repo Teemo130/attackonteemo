@@ -12,7 +12,6 @@ class Boss(pygame.sprite.Sprite):
         self.image = im
         self.rect = self.image.get_rect()
         self.baseImage = self.image
-
         self.mask = pygame.mask.from_surface(self.image, 200)
         self.speed_x = random.randrange(25, 75)
         self.life = 1000

@@ -188,7 +188,7 @@ def Boss_screen(level, screen, start=False):
                 for teemo in pinch_teemo.values():
                     teemo[0].lose_hp(50)
 
-            hit_drag = pygame.sprite.groupcollide(bullet_group, boss_sprite, True, False)
+            hit_drag = pygame.sprite.collide_mask(bullet_group, boss_sprite)
             boom_drag = pygame.sprite.groupcollide(shrooms, boss_sprite, True, False)
             if hit_drag:
                 for boss in hit_drag.values():
