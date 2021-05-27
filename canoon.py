@@ -6,17 +6,16 @@ import math
 clock = pygame.time.Clock()
 
 
-class Minion(pygame.sprite.Sprite):
-    def __init__(self,im, im2, target, level, xy = None):
+class Canon(pygame.sprite.Sprite):
+    def __init__(self,im,  target, level, xy = None):
         super().__init__()
         self.image = im
         self.rect = self.image.get_rect()
-        self.attackimage = im2
         self.rect = self.image.get_rect()
         self.baseImage = self.image
-        self.mask = pygame.mask.from_surface(self.image, 127)
+        self.mask = pygame.mask.from_surface(self.image, 200)
         self.speed_x = random.randrange(25, 75)
-        self.life = 3 + int(level*.5)
+        self.life = 20
         self.level = level
         self.target = target
         self.destination = Vector2(self.target.rect.center)
@@ -26,21 +25,17 @@ class Minion(pygame.sprite.Sprite):
 
 
         if xy == None:
-            x = random.randrange(1,5)
-            if x == 1:
-                self.rect.center = random.randint(0, 2000), 0
+            x = random.randrange(2,5)
             if x == 2:
-                self.rect.center = 0, random.randint(0,1000)
+                self.rect.center = 0, random.randint(500,1000)
             if x == 3:
-                self.rect.center = 2000,  random.randint(0,1000)
+                self.rect.center = 1800,  random.randint(500,1000)
             if x == 4:
-                self.rect.center = random.randint(0,2000), 1000
+                self.rect.center = random.randint(0,1800), 1000
 
     def collide(self,damage):
         """lose hp when it hit bullet"""
         self.life -= damage
-        self.speed_x = self.speed_x + (random.randrange(-5, 0))
-        self.image = self.attackimage
 
     def is_dead(self):
         if self.life <= 0:
@@ -65,6 +60,6 @@ class Minion(pygame.sprite.Sprite):
             vec_to_destination = self.destination - self.rect.center
             distance_to_destination = vec_to_destination.get_length()
             heading = vec_to_destination.get_normalized()
-            travel_distance = min(distance_to_destination, time_passed * self.speed_x * (1 + 0.3*self.level))
+            travel_distance = min(distance_to_destination, time_passed * self.speed_x * self.level*.1)
             self.rect.center += travel_distance * heading
             self.rotate()
