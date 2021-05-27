@@ -62,6 +62,8 @@ def stage1screen(level, screen, start=False):
         shr = pygame.image.load("shroom.png").convert_alpha()
         canonpic = pygame.image.load("cannon.png").convert_alpha()
         bang = pygame.image.load("shroom_explosion.png").convert_alpha()
+        canonghost = pygame.image.load("minion_cannon_ghost.png").convert_alpha()
+        small_can_shell = pygame.image.load("cannon_small.png").convert_alpha()
         kill_count = 10 + level * 5
         screen.fill((255, 255, 255))
         time_passed = clock.tick(30)
@@ -145,7 +147,7 @@ def stage1screen(level, screen, start=False):
             time = time_passed/1000
 
             """spawning minions, canons, and fire the canon"""
-            if level != 3 and level <= 5:
+            if level != 3 and level <= 5 and level != 7:
                 if len(mins) <= (level+3) and random.random() < 0.02:
                     mins.add(Minion(minions, minions2, tim, level))
                 elif len(mins) > (level+3):
@@ -155,12 +157,13 @@ def stage1screen(level, screen, start=False):
                     mins.add(Minion(minion_ash, minions2, tim, 15))
                 elif len(mins) > (level+3):
                     mins = mins
-            elif level > 5 and level < 10:
+            elif level > 5 and level < 10 and level != 7:
                 if len(mins) <= (level-1) and random.random() < 0.02:
                     mins.add(Minion(minion_elite, minions2, tim, level))
                 elif len(mins) > (level+3):
                     mins = mins
-            if level > 5:
+
+            if level > 5 and level != 7:
                 if len(canoons) < 1 and random.random() < 0.02:
                     can = Canon(canonmin, tim, level)
                     canoons.add(can)
@@ -168,7 +171,14 @@ def stage1screen(level, screen, start=False):
                     canoons = canoons
                 if len(canoons) > 0 and random.random() < 0.10:
                     canonfire.add(Canshell(canonpic, can, tim, 20))
-
+            elif level == 7:
+                if len(canoons) < 1 and random.random() < 0.02:
+                    can = Canon(canonghost, tim, 15)
+                    canoons.add(can)
+                elif len(canoons) >= 1:
+                    canoons = canoons
+                if len(canoons) > 0 and random.random() < 0.10:
+                    canonfire.add(Canshell(small_can_shell, can, tim, 20))
 
             """collisions"""
             hit_teemo = pygame.sprite.groupcollide(canonfire, teemo, True, False)
