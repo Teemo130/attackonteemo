@@ -1,7 +1,7 @@
 import pygame as py
 from sys import exit
 from pygame.locals import *
-from narro3 import narrow_screen
+from narro11 import narrow_screen
 
 win = py.image.load("you_win_level.png")
 def Finishscreen(level, start = False):
@@ -29,7 +29,7 @@ def Finishscreen(level, start = False):
                 exit()
             if event.type == MOUSEBUTTONDOWN:
                 if nextlevelbutton.collidepoint(ponter):
-                    narrow_screen(3)
+                    narrow_screen(11)
 
 
         py.display.update()

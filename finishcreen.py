@@ -1,34 +1,24 @@
 import pygame as py
 from sys import exit
 from pygame.locals import *
+from narro1 import narrow_screen
 
-
-def Finishscreen(start = False):
+win = py.image.load("you_win_level.png")
+def Finishscreen(level, start = False):
+    level += 1
     py.init()
     py.mixer.init()
     sound = py.mixer.Sound('ka-ching.mp3')
     sound.play()
-    you_win = "You win!"
-    my_font = py.font.SysFont("arial", 100)
-    my_font2 = py.font.SysFont("arial", 50)
     next = "Next Level"
-    title = "ATTACK ON TEEMO"
     my_font2 = py.font.SysFont("arial", 100)
-    name_surface1 = my_font2.render(title, True, (0, 0, 0), (255, 255, 255))
-    py.image.save(name_surface1, "title.png")
-    vict = my_font.render(you_win, True, (255, 0, 0), (255, 255, 255))
     nex = my_font2.render(next, True, (255, 0, 0), (255, 255, 255))
-    py.image.save(vict, "victory.png")
     py.image.save(nex, "next.png")
 
     while start == True:
-        screen = py.display.set_mode((1800, 900), 0, 32)
-        screen.fill((255, 255, 255))
-        title_pic = py.image.load('title.png').convert_alpha()
-        vict_pic = py.image.load("victory.png").convert_alpha()
+        screen = py.display.set_mode((1800, 900),py.FULLSCREEN)
+        screen.blit(win,(0,0))
         next_pic = py.image.load("next.png").convert_alpha()
-        screen.blit(vict_pic, (600, 400))
-        screen.blit(title_pic, (500, 100))
         screen.blit(next_pic, (800, 600))
         nextlevelbutton = py.Rect(800, 600, 987, 700)
         py.mouse.set_visible(True)
@@ -39,7 +29,9 @@ def Finishscreen(start = False):
                 exit()
             if event.type == MOUSEBUTTONDOWN:
                 if nextlevelbutton.collidepoint(ponter):
-                    return False
+                    narrow_screen(1)
+
+
         py.display.update()
 
 

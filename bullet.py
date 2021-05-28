@@ -10,7 +10,7 @@ class Bullet(py.sprite.Sprite):
         self.image = image
         self.x = location.rect.x
         self.y = location.rect.y
-        self.mask = self.image.get_masks()
+        self.mask =pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect(center=location.rect.center)
         self.rotate()
         self.is_dead = False

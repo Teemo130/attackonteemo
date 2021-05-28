@@ -22,6 +22,7 @@ class Teemo(pygame.sprite.Sprite):
         self.timer = 0
         self.destination = pygame.mouse.get_pos()
         self.damge = 1
+        self.mask = pygame.mask.from_surface(self.image)
 
 
         if xy == None:

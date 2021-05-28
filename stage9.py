@@ -5,7 +5,7 @@ from sys import exit
 from minions import Minion
 from pygame.locals import *
 
-from finishcreen import Finishscreen
+from finishcreen9 import Finishscreen
 from bullet import Bullet
 from shroom import Shroom
 from canoon import Canon
@@ -19,37 +19,38 @@ steps = 10
 
 def gameover(level, lose = False):
     while lose == True:
-        pygame.mixer.music.stop()
-        pygame.mouse.set_visible(True)
-        pygame.display.set_caption("Attack On Teemo")
-        screen = pygame.display.set_mode((1800, 900), FULLSCREEN)
-        screen.fill((255, 255, 255))
-        start = "please start again"
-        my_font = pygame.font.SysFont("arial", 60)
-        my_font.set_bold(True)
-        name_surface = my_font.render(start, True, (255, 0, 0), (255, 255, 255))
-        pygame.image.save(name_surface, "again.png")
-        title = "GAME OVER"
-        my_font2 = pygame.font.SysFont("arial", 100)
-        name_surface1 = my_font2.render(title, True, (0, 0, 0), (255, 255, 255))
-        pygame.image.save(name_surface1, "gameover.png")
-        game_ov = pygame.image.load("gameover.jpg").convert_alpha()
-        start_pic = pygame.image.load('again.png').convert_alpha()
-        title_pic = pygame.image.load('gameover.png').convert_alpha()
-        screen.blit(game_ov, (0,0))
-        screen.blit(start_pic, (700, 450))
-        screen.blit(title_pic, (700, 100))
-        start_button = start_button = pygame.Rect(700, 450, 1200, 520)
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                pygame.quit()
-                exit()
-        mouse_press = pygame.mouse.get_pressed()
-        mouse_pos = pygame.mouse.get_pos()
-        if mouse_press[0] and start_button.collidepoint(mouse_pos):
-            # load screen
-            stage1screen(level, True)
-        pygame.display.update()
+        while lose == True:
+            pygame.mixer.music.stop()
+            pygame.mouse.set_visible(True)
+            pygame.display.set_caption("Attack On Teemo")
+            screen = pygame.display.set_mode((1800, 900), FULLSCREEN)
+            screen.fill((255, 255, 255))
+            start = "please start again"
+            my_font = pygame.font.SysFont("arial", 60)
+            my_font.set_bold(True)
+            name_surface = my_font.render(start, True, (255, 0, 0), (255, 255, 255))
+            pygame.image.save(name_surface, "again.png")
+            title = "GAME OVER"
+            my_font2 = pygame.font.SysFont("arial", 100)
+            name_surface1 = my_font2.render(title, True, (0, 0, 0), (255, 255, 255))
+            pygame.image.save(name_surface1, "gameover.png")
+            game_ov = pygame.image.load("gameover.jpg").convert_alpha()
+            start_pic = pygame.image.load('again.png').convert_alpha()
+            title_pic = pygame.image.load('gameover.png').convert_alpha()
+            screen.blit(game_ov, (0, 0))
+            screen.blit(start_pic, (700, 450))
+            screen.blit(title_pic, (700, 100))
+            start_button = start_button = pygame.Rect(700, 450, 1200, 520)
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    pygame.quit()
+                    exit()
+            mouse_press = pygame.mouse.get_pressed()
+            mouse_pos = pygame.mouse.get_pos()
+            if mouse_press[0] and start_button.collidepoint(mouse_pos):
+                # load screen
+                stage1screen(level, True)
+            pygame.display.update()
 def victory(level, win = False):
     if win == True:
         Finishscreen(level, start = True)
@@ -70,7 +71,7 @@ def stage1screen(level, start=False):
         """sound"""
         pygame.mouse.set_visible(False)
         pygame.mixer.init()
-        pygame.mixer.music.load("Event 07.mp3")
+        pygame.mixer.music.load("Event 05.mp3")
         pygame.mixer.music.set_volume(.5)
         sounddead = pygame.mixer.Sound('Arknights death sound.mp3')
         sound = pygame.mixer.Sound('shot.mp3')
@@ -161,6 +162,7 @@ def stage1screen(level, start=False):
                     tim.lose_hp(-1000)
             if level >= 4:
                 if keys[K_SPACE] and shroom_count >= 1:
+
                     shrooms.add(Shroom(shr, bang, tim))
                     shroom_count -= 1
 
@@ -293,4 +295,3 @@ def stage1screen(level, start=False):
             screen.blit(killboard,(1400,0))
             screen.blit(healthcode,(100,0))
             pygame.display.update()
-

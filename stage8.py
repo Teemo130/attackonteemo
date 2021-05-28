@@ -5,7 +5,7 @@ from sys import exit
 from minions import Minion
 from pygame.locals import *
 
-from finishcreen import Finishscreen
+from finishcreen8 import Finishscreen
 from bullet import Bullet
 from shroom import Shroom
 from canoon import Canon
@@ -36,7 +36,7 @@ def gameover(level, lose = False):
         game_ov = pygame.image.load("gameover.jpg").convert_alpha()
         start_pic = pygame.image.load('again.png').convert_alpha()
         title_pic = pygame.image.load('gameover.png').convert_alpha()
-        screen.blit(game_ov, (0,0))
+        screen.blit(game_ov, (0, 0))
         screen.blit(start_pic, (700, 450))
         screen.blit(title_pic, (700, 100))
         start_button = start_button = pygame.Rect(700, 450, 1200, 520)
@@ -70,7 +70,7 @@ def stage1screen(level, start=False):
         """sound"""
         pygame.mouse.set_visible(False)
         pygame.mixer.init()
-        pygame.mixer.music.load("Event 07.mp3")
+        pygame.mixer.music.load("Event 26.mp3")
         pygame.mixer.music.set_volume(.5)
         sounddead = pygame.mixer.Sound('Arknights death sound.mp3')
         sound = pygame.mixer.Sound('shot.mp3')
@@ -161,6 +161,7 @@ def stage1screen(level, start=False):
                     tim.lose_hp(-1000)
             if level >= 4:
                 if keys[K_SPACE] and shroom_count >= 1:
+
                     shrooms.add(Shroom(shr, bang, tim))
                     shroom_count -= 1
 
@@ -293,4 +294,3 @@ def stage1screen(level, start=False):
             screen.blit(killboard,(1400,0))
             screen.blit(healthcode,(100,0))
             pygame.display.update()
-
