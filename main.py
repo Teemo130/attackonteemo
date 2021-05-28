@@ -1,5 +1,6 @@
-from startScreen import startscreen, stage1screen
+from startScreen import startscreen
+from stage5 import stage1screen
 import pygame
-from sys import exit
-from pygame.locals import *
+pygame.init()
+
 startscreen()

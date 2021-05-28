@@ -9,6 +9,8 @@ class Teemo(pygame.sprite.Sprite):
         super().__init__()
         self.x = 0
         self.y = 0
+        self.z = 900
+        self.o = 700
         self.image = image1
         self.baseimage = image1
         self.rect = self.image.get_rect()
@@ -20,6 +22,7 @@ class Teemo(pygame.sprite.Sprite):
         self.timer = 0
         self.destination = pygame.mouse.get_pos()
         self.damge = 1
+        self.mask = pygame.mask.from_surface(self.image)
 
 
         if xy == None:
@@ -45,8 +48,8 @@ class Teemo(pygame.sprite.Sprite):
 
     def rotate(self):
         rel_x, rel_y = pygame.mouse.get_pos()
-        rel_x -= self.x
-        rel_y -= self.y
+        rel_x -= self.z + self.x
+        rel_y -= self.o + self.y
         angle = -math.degrees(math.atan2(rel_y, rel_x))
         self.image = py.transform.rotate(self.image3[self.timer], angle)
         self.rect = self.image.get_rect()
@@ -58,7 +61,6 @@ class Teemo(pygame.sprite.Sprite):
     def movement(self, x_1=int, y_1=int):
         self.x += x_1
         self.y += y_1
-
     def update(self, time_passed):
 
         while random.randrange(1,6) == 1:
@@ -68,8 +70,8 @@ class Teemo(pygame.sprite.Sprite):
 
         self.set_pos()
         self.rotate()
-        self.rect.x = self.rect.x + self.x
-        self.rect.y = self.rect.y + self.y
+        self.rect.x = self.rect.x + self.x + self.z
+        self.rect.y = self.rect.y + self.y + self.o
 
 
 

@@ -1,8 +1,8 @@
-from stage1 import stage1screen
+from narro import narrow_screen
 from stage import *
 
 
-def startscreen():
+def startscreen(start = False):
     start_screen = MenuScreen('Attack On Teemo')
 
     start_screen_image = pygame.image.load('title_screen.png')
@@ -18,7 +18,8 @@ def startscreen():
         mouse_pos = pygame.mouse.get_pos()
         start_button = pygame.Rect(824, 190, 153, 63)
         if mouse_press[0] and start_button.collidepoint(mouse_pos):
-            stage1screen(1, start=True)
+            narrow_screen(0)
     update_behavior()
 
-startscreen()
+
+

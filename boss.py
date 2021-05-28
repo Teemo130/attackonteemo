@@ -12,13 +12,13 @@ class Boss(pygame.sprite.Sprite):
         self.image = im
         self.rect = self.image.get_rect()
         self.baseImage = self.image
-
-        self.mask = pygame.mask.from_surface(self.image, 200)
+        self.mask = pygame.mask.from_surface(self.image)
         self.speed_x = random.randrange(25, 75)
         self.life = 1000
         self.damage_image = im2
         self.damage_limit = im3
         self.size = self.image.get_size()
+        self.mask = pygame.mask.from_surface(self.image)
 
     def collide(self,damage):
         """lose hp when it hit bullet"""

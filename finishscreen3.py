@@ -1,36 +1,25 @@
 import pygame as py
 from sys import exit
-
-import pygame.mixer
 from pygame.locals import *
+from narro3 import narrow_screen
 
-def Finishscreen3(start = False):
-    pygame.mixer.init()
+win = py.image.load("you_win_level.png")
+def Finishscreen(level, start = False):
+    level += 1
+    py.init()
+    py.mixer.init()
     sound = py.mixer.Sound('ka-ching.mp3')
     sound.play()
-    you_win = "You win!"
-    my_font = py.font.SysFont("arial", 100)
-    my_font2 = py.font.SysFont("arial", 50)
-    backtomanu = "Thank you for playing!"
-    title = "ATTACK ON TEEMO"
+    next = "Next Level"
     my_font2 = py.font.SysFont("arial", 100)
-    name_surface1 = my_font2.render(title, True, (0, 0, 0), (255, 255, 255))
-    py.image.save(name_surface1, "title.png")
-    vict = my_font.render(you_win, True, (255, 0, 0), (255, 255, 255))
-    bex = my_font2.render(backtomanu, True, (255, 0, 0), (255, 255, 255))
-    py.image.save(vict, "victory.png")
-    py.image.save(bex, "bex.png")
-    title_pic = py.image.load('title.png').convert_alpha()
-    vict_pic = py.image.load("victory.png").convert_alpha()
-    next_pic = py.image.load("bex.png").convert_alpha()
-    screen = py.display.set_mode((1800, 900), 0, 32)
+    nex = my_font2.render(next, True, (255, 0, 0), (255, 255, 255))
+    py.image.save(nex, "next.png")
+
     while start == True:
-
-        screen.fill((255, 255, 255))
-
-        screen.blit(vict_pic,(600,400))
-        screen.blit(title_pic, (500, 100))
-        screen.blit(next_pic,(400,600))
+        screen = py.display.set_mode((1800, 900),py.FULLSCREEN)
+        screen.blit(win,(0,0))
+        next_pic = py.image.load("next.png").convert_alpha()
+        screen.blit(next_pic, (800, 600))
         nextlevelbutton = py.Rect(800, 600, 987, 700)
         py.mouse.set_visible(True)
         ponter = py.mouse.get_pos()
@@ -40,5 +29,7 @@ def Finishscreen3(start = False):
                 exit()
             if event.type == MOUSEBUTTONDOWN:
                 if nextlevelbutton.collidepoint(ponter):
-                    return False
+                    narrow_screen(3)
+
+
         py.display.update()

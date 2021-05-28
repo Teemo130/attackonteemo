@@ -81,6 +81,10 @@ class LevelScreen(Screen):
                     if event.type == pygame.QUIT:
                         pygame.quit()
                         sys.exit()
+                keys = pygame.key.get_pressed()
+                if keys[pygame.K_ESCAPE]:
+                    pygame.quit()
+                    sys.exit()
                 func(*args, **kwargs)
                 pygame.display.update()
 
@@ -117,6 +121,10 @@ class MenuScreen(Screen):
                     if event.type == pygame.QUIT:
                         pygame.quit()
                         sys.exit()
+                keys = pygame.key.get_pressed()
+                if keys[pygame.K_ESCAPE]:
+                    pygame.quit()
+                    sys.exit()
                 func(*args, **kwargs)
                 pygame.display.update()
         return wrapper

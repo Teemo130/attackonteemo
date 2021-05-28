@@ -4,9 +4,9 @@ from teemo import Teemo
 from sys import exit
 from minions import Minion
 from pygame.locals import *
-from gameoverscreen import gameoverscreen
+
 from boss import Boss
-from finishcreen import Finishscreen
+from finisgcreen11 import Finishscreen
 from bullet import Bullet
 from shroom import Shroom
 from canoon import Canon
@@ -21,11 +21,41 @@ flames = pygame.image.load("fire.png")
 steps = 10
 spike = pygame.image.load("spike.png")
 def gameover(lose = False):
-    if lose == True:
-        gameoverscreen(start = True)
+    while lose == True:
+        pygame.mixer.music.stop()
+        pygame.mouse.set_visible(True)
+        pygame.display.set_caption("Attack On Teemo")
+        screen = pygame.display.set_mode((1800, 900), FULLSCREEN)
+        screen.fill((255, 255, 255))
+        start = "please start again"
+        my_font = pygame.font.SysFont("arial", 60)
+        my_font.set_bold(True)
+        name_surface = my_font.render(start, True, (255, 0, 0), (255, 255, 255))
+        pygame.image.save(name_surface, "again.png")
+        title = "GAME OVER"
+        my_font2 = pygame.font.SysFont("arial", 100)
+        name_surface1 = my_font2.render(title, True, (0, 0, 0), (255, 255, 255))
+        pygame.image.save(name_surface1, "gameover.png")
+        game_ov = pygame.image.load("gameover.jpg").convert_alpha()
+        start_pic = pygame.image.load('again.png').convert_alpha()
+        title_pic = pygame.image.load('gameover.png').convert_alpha()
+        screen.blit(game_ov, (0, 0))
+        screen.blit(start_pic, (700, 450))
+        screen.blit(title_pic, (700, 100))
+        start_button = start_button = pygame.Rect(700, 450, 1200, 520)
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                exit()
+        mouse_press = pygame.mouse.get_pressed()
+        mouse_pos = pygame.mouse.get_pos()
+        if mouse_press[0] and start_button.collidepoint(mouse_pos):
+            # load screen
+            Boss_screen(11,True)
+        pygame.display.update()
 def victory(win = False):
     if win == True:
-        Finishscreen(start = True)
+        Finishscreen(10, start = True)
 
 def healthbar(self, surface):
     x, y = self.rect.x, self.rect.y
@@ -38,12 +68,12 @@ def healthbar(self, surface):
 #------------------------------------------------------------------------------------------------------------------
 
 
-def Boss_screen(level, screen, start=False):
+def Boss_screen(level, start=False):
     if start == True:
         """sound"""
         pygame.mouse.set_visible(False)
         pygame.mixer.init()
-        pygame.mixer.music.load("Event 05.mp3")
+        pygame.mixer.music.load("Event 09.mp3")
         pygame.mixer.music.set_volume(.5)
         sounddead = pygame.mixer.Sound('Arknights death sound.mp3')
         sound = pygame.mixer.Sound('shot.mp3')
@@ -51,6 +81,7 @@ def Boss_screen(level, screen, start=False):
         pygame.mixer.music.play()
 
         """pictures"""
+        screen = pygame.display.set_mode((1800, 900), pygame.FULLSCREEN)
         mark_pic = pygame.image.load('Mark_white.png').convert_alpha()
         mark_pic_rect = mark_pic.get_rect()
         font = pygame.font.SysFont("arial", 64)
@@ -86,7 +117,7 @@ def Boss_screen(level, screen, start=False):
         canoons = pygame.sprite.Group()
         all_sprite = pygame.sprite.Group()
         all_sprite.add(teemo)
-        shroom_count = level
+        shroom_count = 3
         canonfire = pygame.sprite.Group()
         boss_fire = pygame.sprite.Group()
         spike_group = pygame.sprite.Group()
@@ -131,20 +162,15 @@ def Boss_screen(level, screen, start=False):
             if keys[pygame.K_DOWN] or keys[pygame.K_s]:
                 tim.movement(0, steps)
             if keys[K_1]:
-                bossdrag.get_hp()
+                sounddead.play()
+                gameover(lose=True)
+                pygame.mouse.set_visible(True)
             if keys[K_SPACE] and shroom_count >= 1:
                 shrooms.add(Shroom(shr, bang, tim))
                 shroom_count -= 1
-
-
             if keys[K_BACKSPACE]:
-                sounddead.play()
-                screen.fill((255, 255, 255))
-                lose = font.render('Hi LOSER~', True, (255, 0, 0))
-                screen.blit(lose,(750,700))
-                pygame.mixer.quit()
-                pygame.mouse.set_visible(True)
-                return False
+                for tim in teemo:
+                    tim.lose_hp(-1000)
 
             time_passed = clock.tick(30)
             time = time_passed/1000
@@ -174,34 +200,38 @@ def Boss_screen(level, screen, start=False):
 
             """collisions"""
             hit_teemo = pygame.sprite.groupcollide(canonfire, teemo, True, False)
-            burn_teemo = pygame.sprite.groupcollide(boss_fire,teemo, False, False)
+            for fires in boss_fire:
+                burn_teemo = pygame.sprite.collide_mask(fires,tim)
+                if burn_teemo:
+                    for tim in teemo:
+                        tim.lose_hp(10)
+
             pinch_teemo = pygame.sprite.groupcollide(spike_group,teemo, True, False)
             if hit_teemo:
                 for teemo in hit_teemo.values():
                     teemo[0].lose_hp(100)
 
-            if burn_teemo:
-                for teemo in burn_teemo.values():
-                    teemo[0].lose_hp(15)
 
             if pinch_teemo:
                 for teemo in pinch_teemo.values():
-                    teemo[0].lose_hp(50)
+                    teemo[0].lose_hp(35)
 
-            hit_drag = pygame.sprite.groupcollide(bullet_group, boss_sprite, True, False)
-            boom_drag = pygame.sprite.groupcollide(shrooms, boss_sprite, True, False)
-            if hit_drag:
-                for boss in hit_drag.values():
-                    boss[0].collide(tim.damage_dult(.01))
-                    if boss[0].is_dead():
-                        boss[0].kill()
+            for bullet in bullet_group:
+                hit_drag = pygame.sprite.collide_mask(bullet, bossdrag)
+                if hit_drag:
+                    bossdrag.collide(tim.damage_dult(.01))
+                    bullet.kill()
+                    if bossdrag.is_dead():
+                        bossdrag.kill()
                         laugh_sound.play()
 
-            if boom_drag:
-                for boss in boom_drag.values():
-                    boss[0].collide(10)
-                    if boss[0].is_dead():
-                        boss[0].kill()
+            for shrom in shrooms:
+                boom_drag = pygame.sprite.collide_mask(shrom, bossdrag)
+                if boom_drag:
+                    bossdrag.collide(30)
+                    shrom.kill()
+                    if bossdrag.is_dead():
+                        bossdrag.kill()
                         laugh_sound.play()
 
             hit_cans = pygame.sprite.groupcollide(bullet_group, canoons, True, False)
@@ -242,17 +272,16 @@ def Boss_screen(level, screen, start=False):
                         laugh_sound.play()
 
             for tim in teemo:
+                touch_drag = pygame.sprite.collide_mask(tim, bossdrag)
                 tim.collide(mins, 5)
                 tim.collide(canonfire,100)
                 tim.collide(canoons, 1)
-                tim.collide(boss_sprite, -20)
+                if touch_drag:
+                    tim.collide(boss_sprite, 20)
                 if tim.is_dead():
                     tim.kill()
                     sounddead.play()
-                    screen.fill((255, 255, 255))
-                    lose= font.render('Hi LOSER~', True, (255, 0, 0))
-                    screen.blit(lose,(750,700))
-                    pygame.mixer.quit()
+                    gameover(lose=True)
                     pygame.mouse.set_visible(True)
                     return False
 
@@ -262,7 +291,7 @@ def Boss_screen(level, screen, start=False):
                 victory(win = True)
                 return False
 
-            screen.blit(map,(-100,0))
+            screen.blit(map,(-200,0))
             boss_fire.update(time)
             boss_fire.draw(screen)
             bullet_group.update(time)
